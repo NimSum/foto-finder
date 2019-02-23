@@ -20,6 +20,7 @@ h1 {
   width: 60px;
   height: 33px;
 }
+
 .search-input {
   border: 2px solid #C2B2B4;
   min-width: 300px;
@@ -27,6 +28,7 @@ h1 {
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
 }
+
 .search-input__icon img {
   width: 20px;
   padding: 8px;
@@ -58,6 +60,7 @@ form {
 	position: absolute;
 	z-index: -1;
 }
+
 .form__upload-btn {
   height: 20px;
   text-align: center;
@@ -68,6 +71,7 @@ form {
   font-size: 1rem;
   font-weight: 300;
 }
+
 button {
   height: 40px;
   font-size: .9rem;
@@ -106,7 +110,10 @@ section {
   padding: 20px;
   color: #3E2A35;
 }
-
+.img-container img{
+  width: 220px;
+  height: 145px;
+}
 article {
   background-color: #fff;
   margin: 15px;
@@ -115,6 +122,7 @@ article {
 }
 
 article p {
+  word-wrap: break-word;
   font-weight: 500;
   font-size: 1.2rem;
   padding: 10px;

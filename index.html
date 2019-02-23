@@ -12,7 +12,7 @@
     <header>
         <h1>FOTO<img class="main-icon" src="images/foto-finder-logo.svg" alt="foto finder logo">FINDER</h1>
         <div>
-          <input id="search-input" class="search-input" type="text" placeholder="Search">
+          <input id="search-input" class="search-input" type="text" placeholder="  Search">
           <span class="search-input__icon">
             <a href="#search-input"><img src="images/search-icon-white.png" alt=""></a>
           </span>
@@ -21,27 +21,18 @@
     <main>
         <form>
             <label for="photo-title">Title</label>
-            <input type="text" name="photo-title">
+            <input id="photo-title" type="text" name="photo-title">
             <label for="photo-caption">Caption</label>
-            <input type="text" name="photo-caption">
-            <label class="form__upload-btn hover-state" for="upload-btn">Choose File</label>
-            <input id="upload-btn" class="form__img-upload" type="file" name="upload-btn">
+            <input id="photo-caption" type="text" name="photo-caption">
+            <label class="form__upload-btn hover-state" for="upload-input">Choose File</label>
+            <input id="upload-input" class="form__img-upload" type="file" name="upload-btn">
             <div>
-              <button class="hover-state">View<span> </span>Favorites</button>
-              <button class="hover-state">Add to Album</button>
+              <button id="view-fav-btn" class="hover-state">View<span> </span>Favorites</button>
+              <button id="create-photo-btn" type="button" class="hover-state">Add to Album</button>
             </div>
         </form>
     </main>
-    <section>
-        <article>
-            <p>Waterfall Image</p>
-            <canvas width="220" height="110"></canvas>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-            <div class="trash-fav-icon-container">
-              <img class="icons-album" src="images/delete.svg" alt="trash icon">
-              <img class="icons-album" src="images/favorite.svg" alt="favorite icon">
-            </div>
-        </article>
+    <section id="album-section">
     </section>
 </body>
 <script src="js/photo.js"></script>

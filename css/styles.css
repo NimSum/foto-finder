@@ -1,5 +1,9 @@
 body {
   font-family: 'Open Sans', sans-serif;
+  max-width: 1500px;
+  margin: auto;
+  background:  linear-gradient(180deg, rgba(62,42,53,1) 0%, rgba(62,42,53,1) 51.4%,
+   rgba(194,178,180,1) 51.5%, rgba(194,178,180,1) 100%) no-repeat;
 }
 
 header {
@@ -23,7 +27,7 @@ h1 {
 
 .search-input {
   border: 2px solid #C2B2B4;
-  min-width: 300px;
+  min-width: 255px;
   height: 30px;
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
@@ -53,10 +57,12 @@ form {
   display: flex;
   flex-direction: column;
   width: 55%;
+  min-width: 630px;
   margin: 0 auto;
 }
 
 .form__img-upload {
+  width: 1px;
 	position: absolute;
 	z-index: -1;
 }
@@ -82,8 +88,19 @@ button {
   width: 45%;
 }
 
+button:active,
+button:focus,
+button.active {
+  background-image: none;
+  outline: 0;
+}
+
 .hover-state:hover {
   background-color: #938284;
+  cursor: pointer;
+}
+
+.hover-state-click {
   cursor: pointer;
 }
 
@@ -110,15 +127,19 @@ section {
   padding: 20px;
   color: #3E2A35;
 }
+
 .img-container img{
-  width: 220px;
-  height: 145px;
+  width: 240px;
+  height: 135px;
 }
+
 article {
   background-color: #fff;
   margin: 15px;
-  max-width: 220px;
+  max-width: 240px;
   border: 1px solid #938284;
+  position: relative;
+  padding-bottom: 50px;
 }
 
 article p {
@@ -131,10 +152,31 @@ article p {
 
 .trash-fav-icon-container {
   background-color: #5B4447;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }
 
 .icons-album {
   width: 35px;
   height: 35px;
   margin: 5px;
+}
+
+.is-hidden {
+  display: none;
+}
+
+@media screen and (max-width: 700px) {
+  header {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  h1 {
+    margin: 15px 40px;
+  }
+  form {
+    width: 90%;
+    min-width: 290px;
+  }
 }

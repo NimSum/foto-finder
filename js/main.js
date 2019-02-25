@@ -48,18 +48,30 @@ function savePhoto(obj) {
     albumInstance.saveToStorage(albumArray);
     photoTemplate(albumInstance);
   }
+  document.querySelector('form').reset();
+  document.querySelector('#upload-btn').textContent = 'Choose File'
 }
 
-function validateFields() {
-  const queryElement = (id) => document.querySelector(`${id}`);
+function validateFields(e) {
   const inputField = {
-  titleInput : queryElement('#photo-title').value,
-  captionInput : queryElement('#photo-caption').value,
-  imgInput : queryElement('#upload-input').files[0],
+  titleInput : document.querySelector('#photo-title').value,
+  captionInput : document.querySelector('#photo-caption').value,
+  imgInput : document.querySelector('#upload-input').files[0],
   }
-  inputField.titleInput && inputField.captionInput && inputField.imgInput ? 
-  savePhoto(inputField)
-  : false;
+  inputField.titleInput && inputField.captionInput && inputField.imgInput && e.target.id === 'create-photo-btn'?  
+  savePhoto(inputField) : insertError(e, inputField);
+  const isPickleRick = new Set(['pickle', 'rick']);
+  isPickleRick.has(inputField.titleInput) || isPickleRick.has(inputField.captionInput) ? pickleRickkkk() : false;
+}
+
+function insertError(e, obj) {
+  document.querySelector('#upload-input').addEventListener('change', (e) => {
+    document.querySelector('#upload-btn').textContent = '1 Image Chosen';
+    obj.titleInput && obj.captionInput ? submitBtn.textContent = 'Add to Album' : false;
+  })
+  let submitBtn = document.querySelector('#create-photo-btn');
+  obj.titleInput && obj.captionInput && obj.imgInput? 
+  submitBtn.textContent = 'Add to Album' :  submitBtn.textContent = 'Fields Required';
 }
 
 function photoTemplate(obj) {
@@ -69,6 +81,7 @@ function photoTemplate(obj) {
     <p id="photoTitle" contenteditable="true">${obj.title}</p>
     <div class="img-container hover-state">
       <label for="upload-input"><img class="hover-state-click" id="img-elem" src="${obj.img}"></label>
+      <span class="edit-img-indicator">Change Image</span>
     </div>
     <p id="photoCaption" contenteditable="true">${obj.caption}</p>
     <div class="trash-fav-icon-container">
@@ -116,13 +129,15 @@ function favOrDeletePhoto(e, methods) {
       e.target.src = 'images/favorite-active.svg'  
     : e.target.src = 'images/favorite.svg' ;
   }
-  (e.target.id === 'delete-photo-btn')?  deletePhoto() : favoritePhoto();
+  e.target.id === 'delete-photo-btn' ?  deletePhoto() : favoritePhoto();
   countFavorites(1);
 }
 
 function filterAlbum(e) {
   let albumArray = JSON.parse(localStorage.getItem('album'));
   let searchValue = e.target.value.toUpperCase();
+  const isPickleRick = new Set(['PICKLE', 'RICK']);
+  isPickleRick.has(searchValue) ? pickleRickkkk() : false;
   let section = document.querySelector('#album-section');
   section.innerHTML = '';
   const filterResult = albumArray.filter(photo => 
@@ -135,7 +150,7 @@ function filterAlbum(e) {
 function filterFavorites(value, e) {
   let albumArray = JSON.parse(localStorage.getItem('album'));
   const favoritePhotos = albumArray.filter( photo =>
-    photo.favorite.toString().indexOf(value.toString()) === 0)
+  photo.favorite.toString().indexOf(value.toString()) === 0)
   let section = document.querySelector('#album-section');
   section.innerHTML = '';
   favoritePhotos.forEach(photo => photoTemplate(photo));
@@ -145,9 +160,9 @@ function filterFavorites(value, e) {
 function countFavorites(value) {
   let albumArray = JSON.parse(localStorage.getItem('album'));
   const favoritePhotos = albumArray.filter( photo => 
-    photo.favorite.toString().indexOf(value.toString()) === 0)
+  photo.favorite.toString().indexOf(value.toString()) === 0)
   document.querySelector('#view-fav-btn').textContent = 
-    `View ${favoritePhotos.length.toString()} Favorites`;
+  `View ${favoritePhotos.length.toString()} Favorites`;
 }
 
 function editImage(e) {
@@ -162,4 +177,19 @@ function editImage(e) {
       photoTarget.src = reader.result;
     }
   })
+}
+
+function pickleRickkkk() {
+  document.querySelector('#search-input').value = '';
+  let seconds = 0;
+  const pickleRickAudio = new Audio('images/pickle-rick/pickle-rickkkk.mp3');
+  pickleRickAudio.play();
+  const countSecs = () => {
+    seconds++;
+    seconds === 8 ? pickle.style.display = 'none' : false;
+    seconds === 9 ? clearInterval(timer) : false;
+  }
+  let timer = setInterval(countSecs, 1000)
+  const pickle = document.querySelector('.pickle-rick');
+  pickle.style.display = 'block';
 }

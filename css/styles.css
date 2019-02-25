@@ -2,8 +2,7 @@ body {
   font-family: 'Open Sans', sans-serif;
   max-width: 1500px;
   margin: auto;
-  background:  linear-gradient(180deg, rgba(62,42,53,1) 0%, rgba(62,42,53,1) 51.4%,
-   rgba(194,178,180,1) 51.5%, rgba(194,178,180,1) 100%) no-repeat;
+  background-color:  gray;
 }
 
 header {
@@ -129,8 +128,21 @@ section {
 }
 
 .img-container img{
-  width: 240px;
+  width: 220px;
   height: 135px;
+  margin-bottom: 10px;
+}
+
+.img-container:hover {
+  color: white;
+}
+
+.edit-img-indicator {
+  color: white;
+  font-size: .8rem;
+  position: absolute;
+  bottom: 32%;
+  left: 30%;
 }
 
 article {
@@ -163,8 +175,29 @@ article p {
   margin: 5px;
 }
 
-.is-hidden {
+.show-more-btn {
   display: none;
+  margin: auto;
+  width: 100%;
+}
+
+.pickle-rick {
+  position: absolute;
+  top: 100px;
+  width: 20%;
+  z-index: 2;
+  animation: pickle;
+  animation-duration: 8s;
+  animation-iteration-count: infinite;
+  display: none;
+}
+
+@keyframes pickle {
+  0% {transform: rotate(0deg); left: 0px; top: 100px;}
+  25% {transform: rotate(360deg); top: 0px; left: 70%;}
+  50% {transform: rotate(0deg); top: 0px; top: 80%;}
+  75% {transform: rotate(90deg); right: 0; right: 80%; width: 40%}
+  100% {transform: rotate(-45deg);left: 0px; top: 100px; width: 70%}
 }
 
 @media screen and (max-width: 700px) {

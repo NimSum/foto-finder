@@ -6,36 +6,36 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/styles.css">
-    <title>Document</title>
+    <title>Foto Finder</title>
 </head>
 <body>
-    <header>
-        <h1>FOTO<img class="main-icon" src="images/foto-finder-logo.svg" alt="foto finder logo">FINDER</h1>
-        <div>
-          <input id="search-input" class="search-input" type="text" placeholder=" Search">
-          <span class="search-input__icon">
-            <a href="#search-input"><img src="images/search-icon-white.png" alt=""></a>
-          </span>
-        </div>
-    </header>
-    <main>
-        <form>
-            <label for="photo-title">Title</label>
-            <input id="photo-title" type="text" name="photo-title">
-            <label for="photo-caption">Caption</label>
-            <input id="photo-caption" type="text" name="photo-caption">
-            <label class="form__upload-btn hover-state" for="upload-input">Choose File</label>
-            <input id="upload-input" class="form__img-upload"
-            accept="image/*" type="file" name="upload-input">
-            <div>
-              <button id="view-fav-btn" type="button" class="hover-state">View Favorites</button>
-              <button id="create-photo-btn" type="button" class="hover-state">Add to Album</button>
-            </div>
-        </form>
-    </main>
-    <section id="album-section">
-    </section>
-    <button id="showMoreLess" class="hover-state is-hidden" type="button">Show More</button>
+  <img class="pickle-rick" src="images/pickle-rick/pickle-rick.png" alt="PICKLE RICKKKKK!">
+  <header>
+      <h1>FOTO<img class="main-icon" src="images/foto-finder-logo.svg" alt="foto finder logo">FINDER</h1>
+      <div>
+        <input id="search-input" class="search-input" type="text" placeholder=" Search">
+        <span class="search-input__icon">
+          <a href="#search-input"><img src="images/search-icon-white.png" alt=""></a>
+        </span>
+      </div>
+  </header>
+  <main>
+    <form>
+      <label for="photo-title">Title</label>
+      <input id="photo-title" type="text" name="photo-title">
+      <label for="photo-caption">Caption</label>
+      <input id="photo-caption" type="text" name="photo-caption">
+      <label id="upload-btn" class="form__upload-btn hover-state" for="upload-input">Choose File</label>
+      <input id="upload-input" class="form__img-upload"
+      accept="image/*" type="file" name="upload-input">
+      <div>
+        <button id="view-fav-btn" type="button" class="hover-state">View Favorites</button>
+        <button id="create-photo-btn" type="button" class="hover-state">Add to Album</button>
+      </div>
+    </form>
+  </main>
+  <section id="album-section"></section>
+  <button id="showMoreLess" class="hover-state show-more-btn" type="button">Show More</button>
 </body>
 <script src="js/photo.js"></script>
 <script src="js/main.js"></script>

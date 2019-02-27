@@ -25,7 +25,7 @@ function toggleFavorites(e) {
 }
 
 function toggleShowMoreLess(e) {
-  let onOrOff = e.target.dataset.onOff ^= true;
+  let onOrOff = e.target.dataset.onOff ^= 1;
   onOrOff === 1 ? reloadImages() : sliceAlbum();
   onOrOff === 0 ? true : document.querySelector('#show-more-less').textContent = 'Show Less';
 }
@@ -61,7 +61,7 @@ function uploadBtnCheck(obj) {
   textInputs && obj.imgInput ? uploadBtnOnOff(1) : false;
   document.querySelector('#upload-input').addEventListener('change', (e) => {
     document.querySelector('#upload-btn').textContent = `Image Chosen: ${e.target.files[0].name}`;
-    textInputs ? uploadBtnOnOff(1) : false;
+    textInputs ? uploadBtnOnOff(1) : uploadBtnOnOff();
   });
 }
 
@@ -82,6 +82,7 @@ function convertPhoto(obj) {
   const reader = new FileReader();
   reader.readAsDataURL(obj.imgInput);
   reader.onload = () =>  createAndSaveImg(reader.result, obj);
+  obj.titleInput.toUpperCase() === 'PICKLE' || obj.captionInput.toUpperCase() === 'PICKLE' ? pickleRickkkk() : false;
   document.querySelector('form').reset();
   document.querySelector('#upload-btn').textContent = 'Choose File';
   document.querySelector('.no-image-error').style.display = '';
@@ -152,12 +153,12 @@ function favoritePhoto(e, photoMethods, id) {
   favSwitch === 1 ? 
     e.target.src = 'images/favorite-active.svg'  
   : e.target.src = 'images/favorite.svg';
-
   countFavorites(true);
 }
 
 function filterAlbum(e) {
   let albumArray = JSON.parse(localStorage.getItem('album'));
+  document.querySelector('#view-fav-btn').dataset.onoff == 1 ? albumArray = filterFavorites(true) : false;
   clearAlbumSection();
   const filterResult = albumArray.filter(photo => 
     photo.title.toUpperCase().indexOf(e.target.value.toUpperCase()) === 0  
@@ -175,6 +176,7 @@ function filterFavorites(value) {
   const favoritePhotos = albumArray.filter( photo => 
     photo.favorite.toString().indexOf(value.toString()) === 0);
   favoritePhotos.forEach(photo => photoTemplate(photo));
+  return favoritePhotos;
 }
 
 function clearAlbumSection() {
@@ -184,7 +186,7 @@ function clearAlbumSection() {
 
 function countFavorites(value) {
   let albumArray = JSON.parse(localStorage.getItem('album'));
-  const favoritePhotos = albumArray.filter(photo => photo.favorite.toString().indexOf(value.toString()) === 0)
+  const favoritePhotos = albumArray.filter(photo => photo.favorite.toString().indexOf(value.toString()) === 0);
   document.querySelector('#view-fav-btn').textContent = `View ${favoritePhotos.length.toString()} Favorites`; 
 }
 
@@ -219,6 +221,7 @@ function pickleRickkkk() {
 function pickleRickkkkkkkkkk() {
   const pickleRickAudio = new Audio('images/pickle-rick/pickle-rickkkk.mp3');
   pickleRickAudio.play();
+  reloadImages();
   document.querySelector('#search-input').value = '';
   document.querySelector('.pickle-rick').style.display = 'block';
 }

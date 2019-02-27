@@ -20,13 +20,14 @@
 4. No global vars, if statements, used array prototypes when needed, functions are under 10 lines
 5. Implement the use of grid for the album section
 
-## Here is the original comp and our project screen shots
+## Comp Provided
 
 ![Desktop comp](images/readme-photos/comp-desktop.jpg)
 
 ![Mobile comp](images/readme-photos/comp-mobile.jpg)
 
 ## My re-creation
+
 ![Desktop](images/readme-photos/desktop.jpg)
 
 ![Tablet](images/readme-photos/tablet.jpg)

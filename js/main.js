@@ -2,8 +2,8 @@ window.addEventListener('load', loadEverything);
 
 function loadEverything() {
   let albumArray = JSON.parse(localStorage.getItem('album')) || [];
-  albumArray.length > 10 ? sliceAlbum() : reloadImages();
-  albumArray.length ? true
+  albumArray.length > 10 ? sliceAlbum() : false;
+  albumArray.length ? reloadImages()
    : document.querySelector('.no-image-error').style.display = 'block';
   mainEventHandler();
   countFavorites(1);

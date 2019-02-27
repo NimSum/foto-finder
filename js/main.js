@@ -20,8 +20,8 @@ function mainEventHandler() {
 
 function toggleFavorites(e) {
   let filterSwitch = e.target.dataset.onoff ^= 1;
-  filterSwitch === 1 ? filterFavorites(1) : reloadImages();
-  filterSwitch === 0 ? countFavorites(1) : e.target.textContent = 'Show All';
+  filterSwitch === 1 ? filterFavorites(true) : reloadImages();
+  filterSwitch === 0 ? countFavorites(true) : e.target.textContent = 'Show All';
 }
 
 function toggleShowMoreLess(e) {
@@ -108,7 +108,7 @@ function photoTemplate(obj) {
     <div class="trash-fav-icon-container">
       <img id="delete-photo-btn" class="photo-icons" src="images/delete.svg" alt="trash icon">
       <img id="favorite-photo-btn" class="photo-icons animate-heart"
-      src="${obj.favorite === 1 ? 'images/favorite-active.svg' : 'images/favorite.svg'}" alt="favorite icon">
+      src="${obj.favorite === true ? 'images/favorite-active.svg' : 'images/favorite.svg'}" alt="favorite icon">
     </div>
   </article>`;
 }
@@ -146,11 +146,12 @@ function favOrDeletePhoto(e, photoMethods) {
 
 function favoritePhoto(e, photoMethods, id) {
   let favSwitch = e.target.dataset.favorite ^= 1;
-  photoMethods.updatePhoto(id, 'favorite', favSwitch);
+  photoMethods.updatePhoto(id, 'favorite',  favSwitch === 1 ? true : false);
   favSwitch === 1 ? 
     e.target.src = 'images/favorite-active.svg'  
   : e.target.src = 'images/favorite.svg';
-  countFavorites(1);
+
+  countFavorites(true);
 }
 
 function filterAlbum(e) {

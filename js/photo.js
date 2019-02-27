@@ -3,7 +3,7 @@ class Photo {
     this.id = id;
     this.title = title;
     this.caption = caption;
-    this.favorite = 0;
+    this.favorite = false;
     this.img = img;
   }
 

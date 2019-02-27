@@ -139,6 +139,7 @@ function favOrDeletePhoto(e, photoMethods) {
   const photoParentID = parseInt(e.target.parentElement.parentElement.dataset.id);
   const deletePhoto = () => {
     photoMethods.deleteFromStorage(photoParentID);
+    countFavorites(true);
     e.target.parentElement.parentElement.remove();
   }
   e.target.id === 'delete-photo-btn' ?  

@@ -5,7 +5,7 @@ function loadEverything() {
   albumArray.length > 10 ? sliceAlbum() : false;
   albumArray.length ? reloadImages() : document.querySelector('.no-image-error').style.display = 'block';
   mainEventHandler();
-  countFavorites(1);
+  countFavorites(true);
 }
 
 function mainEventHandler() {
@@ -94,6 +94,7 @@ function createAndSaveImg(result, obj) {
   albumArray.push(albumInstance);
   albumInstance.saveToStorage(albumArray);
   photoTemplate(albumInstance);
+  albumArray.length > 10 ? sliceAlbum() : false;
 }
 
 function photoTemplate(obj) {

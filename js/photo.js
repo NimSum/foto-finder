@@ -14,14 +14,10 @@ class Photo {
   updatePhoto(id, type, content) {
     let albumArray = JSON.parse(localStorage.getItem('album'));
     let photoFound = albumArray[this.findPhotoIndex(id)];
-    type === 'title' ?
-    photoFound.title = content
-    : type === 'caption' ?
-    photoFound.caption = content
-    : type === 'favorite' ?
-    photoFound.favorite = content 
-    : type === 'image' ?
-    photoFound.img = content  : false;
+    type === 'title' ? photoFound.title = content
+    : type === 'caption' ? photoFound.caption = content
+    : type === 'favorite' ? photoFound.favorite = content 
+    : type === 'image' ? photoFound.img = content  : false;
     this.saveToStorage(albumArray);
   }
 

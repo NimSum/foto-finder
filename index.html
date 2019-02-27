@@ -9,7 +9,7 @@
     <title>Foto Finder</title>
 </head>
 <body>
-  <img class="pickle-rick" src="images/pickle-rick/pickle-rick.png" alt="PICKLE RICKKKKK!">
+  <img class="pickle-rick" src="images/pickle-rick/pickle-rick.png">
   <header>
       <h1>FOTO<img class="main-icon" src="images/foto-finder-logo.svg" alt="foto finder logo">FINDER</h1>
       <div>
@@ -20,22 +20,26 @@
       </div>
   </header>
   <main>
-    <form>
+    <form class="hide-element">
       <label for="photo-title">Title</label>
       <input id="photo-title" type="text" name="photo-title">
       <label for="photo-caption">Caption</label>
       <input id="photo-caption" type="text" name="photo-caption">
       <label id="upload-btn" class="form__upload-btn hover-state" for="upload-input">Choose File</label>
-      <input id="upload-input" class="form__img-upload"
-      accept="image/*" type="file" name="upload-input">
+      <input id="upload-input" class="form__img-upload" accept="image/*" type="file" name="upload-input">
       <div>
         <button id="view-fav-btn" type="button" class="hover-state">View Favorites</button>
-        <button id="create-photo-btn" type="button" class="hover-state">Add to Album</button>
+        <button id="create-photo-btn" type="button" class="gray-txt">Add to Album</button>
       </div>
     </form>
   </main>
-  <section id="album-section"></section>
-  <button id="showMoreLess" class="hover-state show-more-btn" type="button">Show More</button>
+  <p class="no-image-error">No Photos Yet</p>
+  <p class="no-result-error">No Matching Photo</p>
+  <section>
+    <div id="album-section" class="photo-container">
+    </div>
+  </section>
+  <button id="show-more-less" class="hover-state show-more-btn" type="button">Show More</button>
 </body>
 <script src="js/photo.js"></script>
 <script src="js/main.js"></script>

@@ -1,8 +1,12 @@
+html {
+  background-color: gray;
+}
 body {
   font-family: 'Open Sans', sans-serif;
   max-width: 1500px;
+  height: 100vh;
   margin: auto;
-  background-color:  gray;
+  background-color: #C2B2B4;
 }
 
 header {
@@ -13,10 +17,16 @@ header {
 }
 
 h1 {
+  /* font-size: 2.2rem; */
   display: flex;
   margin: 0;
   color: white;
   letter-spacing: 2px;
+}
+
+header div {
+  width: 25%;
+  min-width: 220px;
 }
 
 .main-icon {
@@ -26,8 +36,8 @@ h1 {
 
 .search-input {
   border: 2px solid #C2B2B4;
-  min-width: 255px;
   height: 30px;
+  width: 100%;
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
 }
@@ -99,8 +109,11 @@ button.active {
   cursor: pointer;
 }
 
-.hover-state-click {
+.photo-icons {
   cursor: pointer;
+  width: 35px;
+  height: 35px;
+  margin: 7px 10px;
 }
 
 label {
@@ -118,19 +131,30 @@ div {
   justify-content: space-between;
 }
 
-section {
-  display: flex;
-  background-color: #C2B2B4;
-  justify-content: center;
-  flex-wrap: wrap;
-  padding: 20px;
+.photo-container {
+  display: grid;
+  max-width: 1200px;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  justify-items: center;
+  grid-column-gap: 3%;
+  margin: auto;
   color: #3E2A35;
 }
 
+section {
+  background-color: #C2B2B4;
+  padding: 25px;
+}
+
+.img-container {
+  position: relative;
+}
+
 .img-container img{
-  width: 220px;
-  height: 135px;
-  margin-bottom: 10px;
+  width: 270px;
+  height: 180px;
+  margin: 0 0 10px 0;
+  cursor: pointer;
 }
 
 .img-container:hover {
@@ -141,15 +165,16 @@ section {
   color: white;
   font-size: .8rem;
   position: absolute;
-  bottom: 32%;
-  left: 30%;
+  bottom: 2%;
+  left: 33%;
 }
 
 article {
+  margin: auto;
   background-color: #fff;
   margin: 15px;
-  max-width: 240px;
-  border: 1px solid #938284;
+  width: 270px;
+  border: 2px solid #938284;
   position: relative;
   padding-bottom: 50px;
 }
@@ -162,23 +187,55 @@ article p {
   margin: 0;
 }
 
+.no-margin-top {
+  padding-top: 0;
+}
+
 .trash-fav-icon-container {
   background-color: #5B4447;
   position: absolute;
   bottom: 0;
   width: 100%;
-}
-
-.icons-album {
-  width: 35px;
-  height: 35px;
-  margin: 5px;
+  height: 50px;
 }
 
 .show-more-btn {
   display: none;
   margin: auto;
   width: 100%;
+}
+
+.gray-txt {
+  color: darkgray;
+}
+
+.animate-heart:hover {
+  animation: heart-beat;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes heart-beat {
+  0% {width: 35px}
+  50% {width: 25px}
+  100% {width: 35px}
+}
+
+.no-result-error {
+  margin: 25px auto;
+  text-align: center;
+  width: 300px; 
+  color: lightgray;
+  font-size: 1.5rem;
+  display: none;
+}
+
+.no-image-error {
+  color: lightgray;
+  font-size: 3rem;
+  margin: 25px auto;
+  text-align: center;
+  display: none;
 }
 
 .pickle-rick {
@@ -204,12 +261,23 @@ article p {
   header {
     flex-wrap: wrap;
     justify-content: center;
+    padding: 20px 10px; 
   }
+
+  header div {
+    width: 94%;
+  }
+
   h1 {
-    margin: 15px 40px;
+    margin: 0 40px 20px 40px;
   }
+
   form {
     width: 90%;
     min-width: 290px;
+  }
+
+  .search-input {
+    width: 100%;
   }
 }

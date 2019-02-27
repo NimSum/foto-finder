@@ -1,94 +1,117 @@
-window.addEventListener('load', () => {
-  let albumArray = JSON.parse(localStorage.getItem('album')) || [];
-  const queryElement = (id) => document.querySelector(`${id}`);
-  mainEventHandler(queryElement);
-  albumArray.length > 10 ? sliceAlbum() : reloadImages();
-  countFavorites(1);
-});
+window.addEventListener('load', loadEverything);
 
-function mainEventHandler(query) {
-  query('form').addEventListener('click', validateFields);
-  query('#album-section').addEventListener('click', photoEventHandler);
-  query('#view-fav-btn').addEventListener('click', (e) => {
-    let filterSwitch = e.target.value ^= true;
-    filterSwitch === 1 ? filterFavorites(1, e) : reloadImages(filterSwitch);
+function loadEverything() {
+  let albumArray = JSON.parse(localStorage.getItem('album')) || [];
+  albumArray.length > 10 ? sliceAlbum() : reloadImages();
+  albumArray.length ? true
+   : document.querySelector('.no-image-error').style.display = 'block';
+  mainEventHandler();
+  countFavorites(1);
+}
+
+function mainEventHandler() {
+  const queryThis = (id) => document.querySelector(`${id}`);
+  queryThis('form').addEventListener('click', validateFields);
+  queryThis('#album-section').addEventListener('click', photoEventHandler);
+  queryThis('#view-fav-btn').addEventListener('click', toggleFavorites);
+  queryThis('#show-more-less').addEventListener('click', toggleShowMoreLess);
+  queryThis('#search-input').addEventListener('keyup', (e) => {
+    e.target.value.length >= 1 ? filterAlbum(e) :  reloadImages();
   });
-  query('#search-input').addEventListener('keyup', (e) => {
-    e.target.value ? filterAlbum(e) :  reloadImages();
-  });
-  query('#showMoreLess').addEventListener('click', (e) => {
-    let moreLessSwitch = e.target.value ^= true;
-    moreLessSwitch === 1 ? reloadImages(moreLessSwitch) : sliceAlbum();
-  })
+}
+
+function toggleFavorites(e) {
+  let filterSwitch = e.target.dataset.onoff ^= 1;
+  filterSwitch === 1 ? filterFavorites(1) : reloadImages();
+  filterSwitch === 0 ? countFavorites(1) : e.target.textContent = 'Show All';
+}
+
+function toggleShowMoreLess(e) {
+  let onOrOff = e.target.dataset.onOff ^= true;
+  onOrOff === 1 ? reloadImages() : sliceAlbum();
+  onOrOff === 0 ? true : document.querySelector('#show-more-less').textContent = 'Show Less';
 }
 
 function sliceAlbum() {
-  let albumArray = JSON.parse(localStorage.getItem('album'))
-  document.querySelector('#album-section').innerHTML = '';
+  let albumArray = JSON.parse(localStorage.getItem('album'));
+  clearAlbumSection();
   albumArray.slice(albumArray.length - 10).forEach(photo => photoTemplate(photo));
-  document.querySelector('#showMoreLess').style.display = 'block';
-  document.querySelector('#showMoreLess').textContent = 'Show More';
+  document.querySelector('#show-more-less').style.display = 'block';
+  document.querySelector('#show-more-less').textContent = 'Show More';
 }
 
-function reloadImages(onOff) {
+function reloadImages() {
   let albumArray = JSON.parse(localStorage.getItem('album'))
-  document.querySelector('#album-section').innerHTML = '';
+  clearAlbumSection();
   albumArray.forEach(photo => photoTemplate(photo));
-  onOff === 0 ?  countFavorites(1) 
-  : document.querySelector('#showMoreLess').textContent = 'Show Less';
+  document.querySelector('main').style.display = '';
 }
 
-function savePhoto(obj) {
+function convertPhoto(obj) {
   const reader = new FileReader();
   reader.readAsDataURL(obj.imgInput);
-  reader.onload = () => {
+  reader.onload = () =>  createAndSaveImg(reader.result, obj);
+  document.querySelector('form').reset();
+  document.querySelector('#upload-btn').textContent = 'Choose File';
+  document.querySelector('.no-image-error').style.display = '';
+  uploadBtnOnOff(0);
+}
+
+function createAndSaveImg(result, obj) {
     let albumArray = JSON.parse(localStorage.getItem('album')) || [];
-    const albumInstance = new Photo(Date.now(), obj.titleInput, obj.captionInput, reader.result);
+    const albumInstance = new Photo(Date.now(), obj.titleInput, obj.captionInput, result);
     albumArray.push(albumInstance);
     albumInstance.saveToStorage(albumArray);
     photoTemplate(albumInstance);
   }
-  document.querySelector('form').reset();
-  document.querySelector('#upload-btn').textContent = 'Choose File'
-}
 
 function validateFields(e) {
   const inputField = {
-  titleInput : document.querySelector('#photo-title').value,
-  captionInput : document.querySelector('#photo-caption').value,
-  imgInput : document.querySelector('#upload-input').files[0],
+    titleInput : document.querySelector('#photo-title').value,
+    captionInput : document.querySelector('#photo-caption').value,
+    imgInput : document.querySelector('#upload-input').files[0],
   }
   inputField.titleInput && inputField.captionInput && inputField.imgInput && e.target.id === 'create-photo-btn'?  
-  savePhoto(inputField) : insertError(e, inputField);
+    convertPhoto(inputField) : uploadBtnCheck(inputField);
   const isPickleRick = new Set(['pickle', 'rick']);
   isPickleRick.has(inputField.titleInput) || isPickleRick.has(inputField.captionInput) ? pickleRickkkk() : false;
 }
 
-function insertError(e, obj) {
+function uploadBtnCheck(obj) {
+  const textInputs = obj.titleInput && obj.captionInput;
+  textInputs && obj.imgInput ? uploadBtnOnOff(1) : false;
   document.querySelector('#upload-input').addEventListener('change', (e) => {
-    document.querySelector('#upload-btn').textContent = '1 Image Chosen';
-    obj.titleInput && obj.captionInput ? submitBtn.textContent = 'Add to Album' : false;
-  })
-  let submitBtn = document.querySelector('#create-photo-btn');
-  obj.titleInput && obj.captionInput && obj.imgInput? 
-  submitBtn.textContent = 'Add to Album' :  submitBtn.textContent = 'Fields Required';
+    document.querySelector('#upload-btn').textContent = `Image Chosen: ${e.target.files[0].name}`;
+    textInputs ? uploadBtnOnOff(1) : false;
+  });
+}
+
+function uploadBtnOnOff(onOff) {
+  let btn = document.querySelector('#create-photo-btn');
+  const disable = () => {
+    btn.classList.remove('hover-state');
+    btn.classList.add('gray-txt');
+  }
+  const enable = () => {
+    btn.classList.add('hover-state');
+    btn.classList.remove('gray-txt');
+  }
+  onOff === 1 ? enable() : disable();
 }
 
 function photoTemplate(obj) {
-  let section = document.querySelector('#album-section');
-  section.innerHTML += 
+  document.querySelector('#album-section').innerHTML += 
   `<article data-id="${obj.id}">
     <p id="photoTitle" contenteditable="true">${obj.title}</p>
     <div class="img-container hover-state">
-      <label for="upload-input"><img class="hover-state-click" id="img-elem" src="${obj.img}"></label>
+      <label for="upload-input"><img id="img-elem" src="${obj.img}"></label>
       <span class="edit-img-indicator">Change Image</span>
     </div>
-    <p id="photoCaption" contenteditable="true">${obj.caption}</p>
+    <p id="photoCaption" class="no-margin-top" contenteditable="true">${obj.caption}</p>
     <div class="trash-fav-icon-container">
-      <img id="delete-photo-btn" class="icons-album hover-state-click" src="images/delete.svg" alt="trash icon">
-      <img id="favorite-photo-btn" class="icons-album hover-state-click" 
-      src="${obj.favorite === 1 ? 'images/favorite-active.svg' : 'images/favorite.svg'}" 
-      alt="favorite icon">
+      <img id="delete-photo-btn" class="photo-icons" src="images/delete.svg" alt="trash icon">
+      <img id="favorite-photo-btn" class="photo-icons animate-heart"
+      src="${obj.favorite === 1 ? 'images/favorite-active.svg' : 'images/favorite.svg'}" alt="favorite icon">
     </div>
   </article>`;
 }
@@ -96,100 +119,109 @@ function photoTemplate(obj) {
 function photoEventHandler(e) {
   let photoClass = new Photo();
   e.target.id === 'photoTitle' || e.target.id === 'photoCaption' ?
-    editPhotoText(e, photoClass)
-    : e.target.id === 'delete-photo-btn' || e.target.id === 'favorite-photo-btn' ?
-    favOrDeletePhoto(e, photoClass)
-    : e.target.parentElement.parentElement.classList.contains('img-container') ?
-    editImage(e, photoClass) : false;
+  editPhotoText(e, photoClass)
+  : e.target.id === 'delete-photo-btn' || e.target.id === 'favorite-photo-btn' ?
+  favOrDeletePhoto(e, photoClass)
+  : e.target.parentElement.parentElement.classList.contains('img-container') ?
+  convertNewImg(e) : false;
 }
 
-function editPhotoText(e, methods) {
+function editPhotoText(e, photoMethods) {
   const photoID = parseInt(e.target.parentElement.dataset.id);
   e.target.addEventListener('keyup', () => {
-    console.log('yello');
-    let newContent = e.target.textContent;
-    e.target.id === 'photoTitle' ? 
-    methods.updatePhoto(photoID, 'title', newContent)
+    e.target.id === 'photoTitle' ?
+    photoMethods.updatePhoto(photoID, 'title', e.target.textContent)
     : e.target.id === 'photoCaption' ? 
-    methods.updatePhoto(photoID, 'caption', newContent)
+      photoMethods.updatePhoto(photoID, 'caption', e.target.textContent)
     : false;
   })
 }
 
-function favOrDeletePhoto(e, methods) {
+function favOrDeletePhoto(e, photoMethods) {
   const photoParentID = parseInt(e.target.parentElement.parentElement.dataset.id);
   const deletePhoto = () => {
-    methods.deleteFromStorage(photoParentID);
+    photoMethods.deleteFromStorage(photoParentID);
     e.target.parentElement.parentElement.remove();
   }
-  const favoritePhoto = () => {
-    let favSwitch = e.target.dataset.favorite ^= true;
-    methods.updatePhoto(photoParentID, 'favorite', favSwitch);
-    favSwitch === 1 ? 
-      e.target.src = 'images/favorite-active.svg'  
-    : e.target.src = 'images/favorite.svg' ;
-  }
-  e.target.id === 'delete-photo-btn' ?  deletePhoto() : favoritePhoto();
+  e.target.id === 'delete-photo-btn' ?  
+  deletePhoto() : favoritePhoto(e, photoMethods, photoParentID);
+}
+
+function favoritePhoto(e, photoMethods, id) {
+  let favSwitch = e.target.dataset.favorite ^= 1;
+  photoMethods.updatePhoto(id, 'favorite', favSwitch);
+  favSwitch === 1 ? 
+    e.target.src = 'images/favorite-active.svg'  
+  : e.target.src = 'images/favorite.svg' ;
   countFavorites(1);
 }
 
 function filterAlbum(e) {
   let albumArray = JSON.parse(localStorage.getItem('album'));
-  let searchValue = e.target.value.toUpperCase();
-  const isPickleRick = new Set(['PICKLE', 'RICK']);
-  isPickleRick.has(searchValue) ? pickleRickkkk() : false;
-  let section = document.querySelector('#album-section');
-  section.innerHTML = '';
+  clearAlbumSection();
   const filterResult = albumArray.filter(photo => 
-    photo.title.toUpperCase().indexOf(searchValue) === 0  
-    || photo.caption.toUpperCase().indexOf(searchValue) === 0
+    photo.title.toUpperCase().indexOf(e.target.value.toUpperCase()) === 0  
+    || photo.caption.toUpperCase().indexOf(e.target.value.toUpperCase()) === 0
   );
-  filterResult.forEach(photo => photoTemplate(photo))
+  filterResult.length === 0 ? document.querySelector('.no-result-error').style.display = 'block' : false;  
+  filterResult.forEach(photo => photoTemplate(photo));
+  document.querySelector('main').style.display = 'none';
+  e.target.value.toUpperCase() === 'PICKLE' ? pickleRickkkk() : false;
 }
 
-function filterFavorites(value, e) {
+function filterFavorites(value) {
+  clearAlbumSection();
   let albumArray = JSON.parse(localStorage.getItem('album'));
-  const favoritePhotos = albumArray.filter( photo =>
-  photo.favorite.toString().indexOf(value.toString()) === 0)
+  const favoritePhotos = albumArray.filter( photo => 
+    photo.favorite.toString().indexOf(value.toString()) === 0);
+  favoritePhotos.forEach(photo => photoTemplate(photo));
+}
+
+function clearAlbumSection() {
   let section = document.querySelector('#album-section');
   section.innerHTML = '';
-  favoritePhotos.forEach(photo => photoTemplate(photo));
-  e.target.textContent = 'View All';
+  document.querySelector('.no-result-error').style.display = '';
 }
 
 function countFavorites(value) {
   let albumArray = JSON.parse(localStorage.getItem('album'));
   const favoritePhotos = albumArray.filter( photo => 
   photo.favorite.toString().indexOf(value.toString()) === 0)
-  document.querySelector('#view-fav-btn').textContent = 
-  `View ${favoritePhotos.length.toString()} Favorites`;
+  document.querySelector('#view-fav-btn').textContent =
+  `View ${favoritePhotos.length.toString()} Favorites`; 
 }
 
-function editImage(e) {
+function convertNewImg(e) {
   const photoID = parseInt(e.target.parentElement.parentElement.parentElement.dataset.id);
   let photoTarget = e.target;
   document.querySelector('#upload-input').addEventListener('change', (e) => {
     const reader = new FileReader();
     reader.readAsDataURL(e.target.files[0]);
-    reader.onload = () => {
-      const albumInstance = new Photo();
-      albumInstance.updatePhoto(photoID, 'image', reader.result);
-      photoTarget.src = reader.result;
-    }
-  })
+    reader.onload = () => insertAndSaveImg(reader.result, photoID, photoTarget);
+  }) 
+}
+
+function insertAndSaveImg(img, id, imgsrc) {
+  const albumInstance = new Photo();
+  albumInstance.updatePhoto(id, 'image', img);
+  imgsrc.src = img;
+  document.querySelector('#upload-btn').textContent = 'Choose File';
 }
 
 function pickleRickkkk() {
-  document.querySelector('#search-input').value = '';
+  pickleRickkkkkkkkkk();
   let seconds = 0;
-  const pickleRickAudio = new Audio('images/pickle-rick/pickle-rickkkk.mp3');
-  pickleRickAudio.play();
   const countSecs = () => {
-    seconds++;
-    seconds === 8 ? pickle.style.display = 'none' : false;
+    seconds++
+    seconds === 8 ? document.querySelector('.pickle-rick').style.display = 'none' : false;
     seconds === 9 ? clearInterval(timer) : false;
   }
   let timer = setInterval(countSecs, 1000)
-  const pickle = document.querySelector('.pickle-rick');
-  pickle.style.display = 'block';
+}
+
+function pickleRickkkkkkkkkk() {
+  const pickleRickAudio = new Audio('images/pickle-rick/pickle-rickkkk.mp3');
+  pickleRickAudio.play();
+  document.querySelector('#search-input').value = '';
+  document.querySelector('.pickle-rick').style.display = 'block';
 }

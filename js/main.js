@@ -3,19 +3,17 @@ window.addEventListener('load', loadEverything);
 function loadEverything() {
   let albumArray = JSON.parse(localStorage.getItem('album')) || [];
   albumArray.length > 10 ? sliceAlbum() : false;
-  albumArray.length ? reloadImages()
-   : document.querySelector('.no-image-error').style.display = 'block';
+  albumArray.length ? reloadImages() : document.querySelector('.no-image-error').style.display = 'block';
   mainEventHandler();
   countFavorites(1);
 }
 
 function mainEventHandler() {
-  const queryThis = (id) => document.querySelector(`${id}`);
-  queryThis('form').addEventListener('click', validateFields);
-  queryThis('#album-section').addEventListener('click', photoEventHandler);
-  queryThis('#view-fav-btn').addEventListener('click', toggleFavorites);
-  queryThis('#show-more-less').addEventListener('click', toggleShowMoreLess);
-  queryThis('#search-input').addEventListener('keyup', (e) => {
+  document.querySelector('form').addEventListener('click', validateFields);
+  document.querySelector('#album-section').addEventListener('click', photoEventHandler);
+  document.querySelector('#view-fav-btn').addEventListener('click', toggleFavorites);
+  document.querySelector('#show-more-less').addEventListener('click', toggleShowMoreLess);
+  document.querySelector('#search-input').addEventListener('keyup', (e) => {
     e.target.value.length >= 1 ? filterAlbum(e) :  reloadImages();
   });
 }
@@ -41,29 +39,11 @@ function sliceAlbum() {
 }
 
 function reloadImages() {
-  let albumArray = JSON.parse(localStorage.getItem('album'))
+  let albumArray = JSON.parse(localStorage.getItem('album'));
   clearAlbumSection();
   albumArray.forEach(photo => photoTemplate(photo));
   document.querySelector('main').style.display = '';
 }
-
-function convertPhoto(obj) {
-  const reader = new FileReader();
-  reader.readAsDataURL(obj.imgInput);
-  reader.onload = () =>  createAndSaveImg(reader.result, obj);
-  document.querySelector('form').reset();
-  document.querySelector('#upload-btn').textContent = 'Choose File';
-  document.querySelector('.no-image-error').style.display = '';
-  uploadBtnOnOff(0);
-}
-
-function createAndSaveImg(result, obj) {
-    let albumArray = JSON.parse(localStorage.getItem('album')) || [];
-    const albumInstance = new Photo(Date.now(), obj.titleInput, obj.captionInput, result);
-    albumArray.push(albumInstance);
-    albumInstance.saveToStorage(albumArray);
-    photoTemplate(albumInstance);
-  }
 
 function validateFields(e) {
   const inputField = {
@@ -71,10 +51,9 @@ function validateFields(e) {
     captionInput : document.querySelector('#photo-caption').value,
     imgInput : document.querySelector('#upload-input').files[0],
   }
-  inputField.titleInput && inputField.captionInput && inputField.imgInput && e.target.id === 'create-photo-btn'?  
-    convertPhoto(inputField) : uploadBtnCheck(inputField);
-  const isPickleRick = new Set(['pickle', 'rick']);
-  isPickleRick.has(inputField.titleInput) || isPickleRick.has(inputField.captionInput) ? pickleRickkkk() : false;
+  inputField.titleInput && inputField.captionInput && inputField.imgInput && e.target.id === 'create-photo-btn' ?  
+    convertPhoto(inputField) 
+    : uploadBtnCheck(inputField);
 }
 
 function uploadBtnCheck(obj) {
@@ -99,6 +78,24 @@ function uploadBtnOnOff(onOff) {
   onOff === 1 ? enable() : disable();
 }
 
+function convertPhoto(obj) {
+  const reader = new FileReader();
+  reader.readAsDataURL(obj.imgInput);
+  reader.onload = () =>  createAndSaveImg(reader.result, obj);
+  document.querySelector('form').reset();
+  document.querySelector('#upload-btn').textContent = 'Choose File';
+  document.querySelector('.no-image-error').style.display = '';
+  uploadBtnOnOff(0);
+}
+
+function createAndSaveImg(result, obj) {
+  let albumArray = JSON.parse(localStorage.getItem('album')) || [];
+  const albumInstance = new Photo(Date.now(), obj.titleInput, obj.captionInput, result);
+  albumArray.push(albumInstance);
+  albumInstance.saveToStorage(albumArray);
+  photoTemplate(albumInstance);
+}
+
 function photoTemplate(obj) {
   document.querySelector('#album-section').innerHTML += 
   `<article data-id="${obj.id}">
@@ -119,7 +116,7 @@ function photoTemplate(obj) {
 function photoEventHandler(e) {
   let photoClass = new Photo();
   e.target.id === 'photoTitle' || e.target.id === 'photoCaption' ?
-  editPhotoText(e, photoClass)
+    editPhotoText(e, photoClass)
   : e.target.id === 'delete-photo-btn' || e.target.id === 'favorite-photo-btn' ?
   favOrDeletePhoto(e, photoClass)
   : e.target.parentElement.parentElement.classList.contains('img-container') ?
@@ -129,11 +126,11 @@ function photoEventHandler(e) {
 function editPhotoText(e, photoMethods) {
   const photoID = parseInt(e.target.parentElement.dataset.id);
   e.target.addEventListener('keyup', () => {
-    e.target.id === 'photoTitle' ?
-    photoMethods.updatePhoto(photoID, 'title', e.target.textContent)
-    : e.target.id === 'photoCaption' ? 
-      photoMethods.updatePhoto(photoID, 'caption', e.target.textContent)
-    : false;
+  e.target.id === 'photoTitle' ?
+  photoMethods.updatePhoto(photoID, 'title', e.target.textContent)
+  : e.target.id === 'photoCaption' ? 
+    photoMethods.updatePhoto(photoID, 'caption', e.target.textContent)
+  : false;
   })
 }
 
@@ -152,7 +149,7 @@ function favoritePhoto(e, photoMethods, id) {
   photoMethods.updatePhoto(id, 'favorite', favSwitch);
   favSwitch === 1 ? 
     e.target.src = 'images/favorite-active.svg'  
-  : e.target.src = 'images/favorite.svg' ;
+  : e.target.src = 'images/favorite.svg';
   countFavorites(1);
 }
 
@@ -178,17 +175,14 @@ function filterFavorites(value) {
 }
 
 function clearAlbumSection() {
-  let section = document.querySelector('#album-section');
-  section.innerHTML = '';
+  document.querySelector('#album-section').innerHTML = '';
   document.querySelector('.no-result-error').style.display = '';
 }
 
 function countFavorites(value) {
   let albumArray = JSON.parse(localStorage.getItem('album'));
-  const favoritePhotos = albumArray.filter( photo => 
-  photo.favorite.toString().indexOf(value.toString()) === 0)
-  document.querySelector('#view-fav-btn').textContent =
-  `View ${favoritePhotos.length.toString()} Favorites`; 
+  const favoritePhotos = albumArray.filter(photo => photo.favorite.toString().indexOf(value.toString()) === 0)
+  document.querySelector('#view-fav-btn').textContent = `View ${favoritePhotos.length.toString()} Favorites`; 
 }
 
 function convertNewImg(e) {

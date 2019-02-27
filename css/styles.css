@@ -1,99 +1,99 @@
 html {
   background-color: gray;
 }
+
 body {
+  background-color: #C2B2B4;
   font-family: 'Open Sans', sans-serif;
-  max-width: 1500px;
   height: 100vh;
   margin: auto;
-  background-color: #C2B2B4;
+  max-width: 1500px;
 }
 
 header {
-  display: flex;
   background-color: #3E2A35;
+  display: flex;
   justify-content: space-between;
   padding: 20px;
 }
 
 h1 {
-  /* font-size: 2.2rem; */
-  display: flex;
-  margin: 0;
   color: white;
+  display: flex;
   letter-spacing: 2px;
+  margin: 0;
 }
 
 header div {
-  width: 25%;
   min-width: 220px;
+  width: 25%;
 }
 
 .main-icon {
-  width: 60px;
   height: 33px;
+  width: 60px;
 }
 
 .search-input {
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 5px;
   border: 2px solid #C2B2B4;
   height: 30px;
   width: 100%;
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
 }
 
 .search-input__icon img {
-  width: 20px;
-  padding: 8px;
   background-color: #C2B2B4;
-  border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
+  border-top-right-radius: 5px;
+  padding: 8px;
+  width: 20px;
 }
 
 main {
   background-color: #3E2A35;
-  text-align: center;
   padding-bottom: 35px;
+  text-align: center;
 }
 
 label {
-  margin: 10px 0;
   color: #938284;
   font-size: 1.2rem;
+  margin: 10px 0;
 }
 
 form {
   display: flex;
   flex-direction: column;
-  width: 55%;
-  min-width: 630px;
   margin: 0 auto;
+  min-width: 630px;
+  width: 55%;
 }
 
 .form__img-upload {
-  width: 1px;
 	position: absolute;
 	z-index: -1;
+  width: 1px;
 }
 
 .form__upload-btn {
-  height: 20px;
-  text-align: center;
   background-color: #5B4447;
-  padding: 10px;
-  margin: 35px 0;
   color: #fff;
   font-size: 1rem;
   font-weight: 300;
+  height: 20px;
+  margin: 35px 0;
+  padding: 10px;
+  text-align: center;
 }
 
 button {
-  height: 40px;
-  font-size: .9rem;
-  color: #fff;
-  border: 0;
   background-color: #5B4447;
+  border: 0;
+  color: #fff;
+  font-size: .9rem;
   font-weight: 300;
+  height: 40px;
   width: 45%;
 }
 
@@ -111,9 +111,9 @@ button.active {
 
 .photo-icons {
   cursor: pointer;
-  width: 35px;
   height: 35px;
   margin: 7px 10px;
+  width: 35px;
 }
 
 label {
@@ -121,9 +121,9 @@ label {
 }
 
 input {
-  height: 40px;
-  font-size: 1.2rem;
   border: 0;
+  font-size: 1.2rem;
+  height: 40px;
 }
 
 div {
@@ -132,13 +132,13 @@ div {
 }
 
 .photo-container {
+  color: #3E2A35;
   display: grid;
-  max-width: 1200px;
+  grid-column-gap: 3%;
   grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
   justify-items: center;
-  grid-column-gap: 3%;
   margin: auto;
-  color: #3E2A35;
+  max-width: 1200px;
 }
 
 section {
@@ -151,10 +151,10 @@ section {
 }
 
 .img-container img{
-  width: 270px;
+  cursor: pointer;
   height: 180px;
   margin: 0 0 10px 0;
-  cursor: pointer;
+  width: 270px;
 }
 
 .img-container:hover {
@@ -162,29 +162,28 @@ section {
 }
 
 .edit-img-indicator {
+  bottom: 2%;
   color: white;
   font-size: .8rem;
-  position: absolute;
-  bottom: 2%;
   left: 33%;
+  position: absolute;
 }
 
 article {
-  margin: auto;
   background-color: #fff;
-  margin: 15px;
-  width: 270px;
   border: 2px solid #938284;
-  position: relative;
+  margin: 15px;
   padding-bottom: 50px;
+  position: relative;
+  width: 270px;
 }
 
 article p {
-  word-wrap: break-word;
-  font-weight: 500;
   font-size: 1.2rem;
-  padding: 10px;
+  font-weight: 500;
   margin: 0;
+  padding: 10px;
+  word-wrap: break-word;
 }
 
 .no-margin-top {
@@ -193,10 +192,10 @@ article p {
 
 .trash-fav-icon-container {
   background-color: #5B4447;
-  position: absolute;
   bottom: 0;
-  width: 100%;
   height: 50px;
+  position: absolute;
+  width: 100%;
 }
 
 .show-more-btn {
@@ -217,36 +216,36 @@ article p {
 
 @keyframes heart-beat {
   0% {width: 35px}
-  50% {width: 25px}
+  50% {width: 30px}
   100% {width: 35px}
 }
 
 .no-result-error {
+  color: lightgray;
+  display: none;
+  font-size: 1.5rem;
   margin: 25px auto;
   text-align: center;
   width: 300px; 
-  color: lightgray;
-  font-size: 1.5rem;
-  display: none;
 }
 
 .no-image-error {
   color: lightgray;
+  display: none;
   font-size: 3rem;
   margin: 25px auto;
   text-align: center;
-  display: none;
 }
 
 .pickle-rick {
-  position: absolute;
-  top: 100px;
-  width: 20%;
-  z-index: 2;
   animation: pickle;
   animation-duration: 8s;
   animation-iteration-count: infinite;
   display: none;
+  position: absolute;
+  top: 100px;
+  width: 20%;
+  z-index: 2;
 }
 
 @keyframes pickle {
@@ -273,8 +272,8 @@ article p {
   }
 
   form {
-    width: 90%;
     min-width: 290px;
+    width: 90%;
   }
 
   .search-input {
